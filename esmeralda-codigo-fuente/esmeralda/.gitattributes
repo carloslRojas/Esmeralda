@@ -1,0 +1,6 @@
+# Finales de línea Unix (evita errores "\r" al ejecutar los scripts en el VPS)
+* text=auto eol=lf
+*.sh text eol=lf
+*.png binary
+*.jpg binary
+*.webp binary

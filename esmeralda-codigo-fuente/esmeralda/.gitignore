@@ -1,0 +1,16 @@
+# Fotos de jugadores (datos personales: nunca al repositorio)
+uploads/fotos/*
+!uploads/fotos/.gitkeep
+
+# Paquetes y temporales
+*.zip
+*.tar.gz
+*.sql.gz
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Configuración local de cada equipo (MAMP/XAMPP)
+config/config.local.php

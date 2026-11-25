@@ -59,7 +59,7 @@ $paginas = max(1, (int) ceil($total / $porPagina));
 $p = min($paginas, max(1, (int) ($_GET['p'] ?? 1)));
 $offset = ($p - 1) * $porPagina;
 
-$jugadores = q("SELECT j.*, c.nombre categoria, CONCAT(r.nombres,' ',r.apellidos) representante, r.telefono tel_rep
+$jugadores = q("SELECT j.*, c.nombre categoria, CONCAT(r.nombres,' ',r.apellidos) representante, r.telefono tel_rep, r.cedula ced_rep
                 $base ORDER BY j.apellidos, j.nombres LIMIT $porPagina OFFSET $offset", $params)->fetchAll();
 $categorias = q('SELECT id, nombre FROM categorias ORDER BY edad_min')->fetchAll();
 
@@ -91,7 +91,7 @@ function render_tabla_jugadores(array $jugadores, int $total, int $paginas, int 
           <td><?= edad($j['fecha_nacimiento']) ?></td>
           <td><?= e($j['categoria'] ?? '—') ?></td>
           <td><?= e($j['posicion']) ?></td>
-          <td><?= e($j['representante'] ?? '—') ?><br><small><?= e($j['tel_rep'] ?? '') ?></small></td>
+          <td><?= e($j['representante'] ?? '—') ?><br><small><?= e(($j['tel_rep'] ?? '') === 'Por completar' && !empty($j['ced_rep']) ? 'C.I. ' . $j['ced_rep'] : ($j['tel_rep'] ?? '')) ?></small></td>
           <td><span class="etiqueta etiqueta-<?= e($j['estado']) ?>"><?= e(ucfirst($j['estado'])) ?></span></td>
           <td class="acciones">
             <a class="btn-icono btn-mini-ver" href="jugador_ver.php?id=<?= $j['id'] ?>" title="Ver ficha" aria-label="Ver ficha"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg></a>
@@ -137,7 +137,7 @@ require __DIR__ . '/includes/header.php';
   </select>
   <button class="btn">Filtrar</button>
   <a class="btn btn-sec" id="btn-exportar" href="<?= e(url_filtros(['exportar' => 1])) ?>">Exportar a Excel</a>
-  <?php if (puede_editar()): ?><a class="btn btn-primario" href="jugador_form.php">+ Nuevo jugador</a><?php endif; ?>
+  <?php if (puede_editar()): ?><a class="btn btn-sec" href="importar_nomina.php">Importar nómina</a><a class="btn btn-primario" href="jugador_form.php">+ Nuevo jugador</a><?php endif; ?>
 </form>
 
 <div id="contenedor-jugadores">
